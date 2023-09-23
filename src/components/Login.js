@@ -1,20 +1,22 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
 import React from "react";
 import { auth } from "../config/firebase";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../constants/routes";
 
 function Login() {
+  const navigate = useNavigate();
+
   const handleSignIn = async (e) => {
     e.preventDefault();
     const { email, password } = e.target;
     await signInWithEmailAndPassword(auth, email.value, password.value)
       .then((userCredential) => {
         // Signed in
-        const user = userCredential.user;
-        console.log("user==>",user)
+        navigate(ROUTES.DASHBOARD);
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
+        console.log(error);
       });
   };
   return (
